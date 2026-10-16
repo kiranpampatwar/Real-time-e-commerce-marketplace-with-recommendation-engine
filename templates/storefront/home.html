@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="bg-slate-900 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between">
+      <h1 class="font-bold text-xl">Product Marketplace</h1>
+      <nav>
+        {% if user.is_authenticated %}
+          <span class="mr-4">{{ user.username }}</span>
+          <a href="/accounts/logout/" class="underline">Logout</a>
+        {% else %}
+          <a href="/accounts/login/" class="underline">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-6">
+    <section class="mb-8">
+      <h2 class="text-3xl font-bold mb-2">Real-Time E-commerce Marketplace</h2>
+      <p class="text-slate-600">Django + DRF + PostgreSQL + Redis + Celery + recommendation engine.</p>
+    </section>
+
+    <section>
+      <h3 class="text-2xl font-semibold mb-4">Products</h3>
+      <div class="grid md:grid-cols-3 gap-5">
+        {% for product in products %}
+        <article class="bg-white rounded-xl shadow p-5">
+          <div class="text-sm text-slate-500">{{ product.category.name }}</div>
+          <h4 class="font-semibold text-lg mt-1">{{ product.name }}</h4>
+          <p class="text-slate-600 mt-2">{{ product.description|truncatechars:100 }}</p>
+          <div class="mt-4 font-bold">₹{{ product.price }}</div>
+        </article>
+        {% empty %}
+        <p>No products yet. Run the demo data command.</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="mt-10 p-5 bg-white rounded-xl shadow">
+      <h3 class="text-xl font-semibold">Developer links</h3>
+      <ul class="list-disc ml-5 mt-3 space-y-2">
+        <li><a class="text-blue-700 underline" href="/api/docs/">Swagger API Documentation</a></li>
+        <li><a class="text-blue-700 underline" href="/admin/">Django Admin</a></li>
+        <li><a class="text-blue-700 underline" href="/health/ready/">Readiness Health Check</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
